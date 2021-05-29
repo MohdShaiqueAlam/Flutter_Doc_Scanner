@@ -8,22 +8,21 @@ class CropPainter extends CustomPainter {
     ..color = Colors.blue
     ..strokeWidth = 2
     ..strokeCap = StrokeCap.round
-    ..style=PaintingStyle.stroke;
+    ..style = PaintingStyle.stroke;
   Paint painter1 = Paint()
     ..color = Colors.blue
     ..strokeWidth = 3
     ..strokeCap = StrokeCap.round;
   @override
   void paint(Canvas canvas, Size size) {
-    // TODO: implement paint
     canvas.drawCircle(tl, 10, painter);
     canvas.drawCircle(tr, 10, painter);
     canvas.drawCircle(bl, 10, painter);
     canvas.drawCircle(br, 10, painter);
-    canvas.drawLine(tl,tr, painter1);
-    canvas.drawLine(tr,br, painter1);
-    canvas.drawLine(br,bl, painter1);
-    canvas.drawLine(bl,tl, painter1);
+    canvas.drawLine(tl, tr, painter1);
+    canvas.drawLine(tr, br, painter1);
+    canvas.drawLine(br, bl, painter1);
+    canvas.drawLine(bl, tl, painter1);
   }
 
   @override

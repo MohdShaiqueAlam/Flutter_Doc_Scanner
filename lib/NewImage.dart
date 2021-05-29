@@ -1,16 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:documentscanner2/crop_painter.dart';
 import 'package:documentscanner2/showImage.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_isolate/flutter_isolate.dart';
+
 import 'package:image_size_getter/image_size_getter.dart';
 
+// ignore: must_be_immutable
 class NewImage extends StatefulWidget {
   File file;
   GlobalKey<AnimatedListState> animatedListKey;
@@ -28,7 +27,6 @@ class _NewImageState extends State<NewImage> {
   bool isLoading = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Timer(Duration(milliseconds: 2000), getImageSize);
   }
@@ -53,143 +51,143 @@ class _NewImageState extends State<NewImage> {
         backgroundColor: ThemeData.dark().canvasColor,
         key: _scaffoldKey,
         body: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Stack(
-        children: <Widget>[
-          GestureDetector(
-            onPanDown: (details) {
-              double x1 = details.localPosition.dx;
-              double y1 = details.localPosition.dy;
-              double x2 = tl.dx;
-              double y2 = tl.dy;
-              double x3 = tr.dx;
-              double y3 = tr.dy;
-              double x4 = bl.dx;
-              double y4 = bl.dy;
-              double x5 = br.dx;
-              double y5 = br.dy;
-              if (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) <
-                      30 &&
-                  x1 >= 0 &&
-                  y1 >= 0 &&
-                  x1 < width / 2 &&
-                  y1 < height / 2) {
-                print(details.localPosition);
-                setState(() {
-                  tl = details.localPosition;
-                });
-              } else if (sqrt((x3 - x1) * (x3 - x1) +
-                          (y3 - y1) * (y3 - y1)) <
-                      30 &&
-                  x1 >= width / 2 &&
-                  y1 >= 0 &&
-                  x1 < width &&
-                  y1 < height / 2) {
-                setState(() {
-                  tr = details.localPosition;
-                });
-              } else if (sqrt((x4 - x1) * (x4 - x1) +
-                          (y4 - y1) * (y4 - y1)) <
-                      30 &&
-                  x1 >= 0 &&
-                  y1 >= height / 2 &&
-                  x1 < width / 2 &&
-                  y1 < height) {
-                setState(() {
-                  bl = details.localPosition;
-                });
-              } else if (sqrt((x5 - x1) * (x5 - x1) +
-                          (y5 - y1) * (y5 - y1)) <
-                      30 &&
-                  x1 >= width / 2 &&
-                  y1 >= height / 2 &&
-                  x1 < width &&
-                  y1 < height) {
-                setState(() {
-                  br = details.localPosition;
-                });
-              }
-            },
-            onPanUpdate: (details) {
-              double x1 = details.localPosition.dx;
-              double y1 = details.localPosition.dy;
-              double x2 = tl.dx;
-              double y2 = tl.dy;
-              double x3 = tr.dx;
-              double y3 = tr.dy;
-              double x4 = bl.dx;
-              double y4 = bl.dy;
-              double x5 = br.dx;
-              double y5 = br.dy;
-              if (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) <
-                      30 &&
-                  x1 >= 0 &&
-                  y1 >= 0 &&
-                  x1 < width / 2 &&
-                  y1 < height / 2) {
-                print(details.localPosition);
-                setState(() {
-                  tl = details.localPosition;
-                });
-              } else if (sqrt((x3 - x1) * (x3 - x1) +
-                          (y3 - y1) * (y3 - y1)) <
-                      30 &&
-                  x1 >= width / 2 &&
-                  y1 >= 0 &&
-                  x1 < width &&
-                  y1 < height / 2) {
-                setState(() {
-                  tr = details.localPosition;
-                });
-              } else if (sqrt((x4 - x1) * (x4 - x1) +
-                          (y4 - y1) * (y4 - y1)) <
-                      30 &&
-                  x1 >= 0 &&
-                  y1 >= height / 2 &&
-                  x1 < width / 2 &&
-                  y1 < height) {
-                setState(() {
-                  bl = details.localPosition;
-                });
-              } else if (sqrt((x5 - x1) * (x5 - x1) +
-                          (y5 - y1) * (y5 - y1)) <
-                      30 &&
-                  x1 >= width / 2 &&
-                  y1 >= height / 2 &&
-                  x1 < width &&
-                  y1 < height) {
-                setState(() {
-                  br = details.localPosition;
-                });
-              }
-            },
-            child: SafeArea(
-              child: Container(
-                color: ThemeData.dark().canvasColor,
-                constraints: BoxConstraints(maxHeight:450),
-                child: Image.file(
-                  widget.file,
-                  key: key,
-                ),
-              ),
-            ),
-          ),
-          isFile
-              ? SafeArea(
-                  child: CustomPaint(
-                    painter: CropPainter(tl, tr, bl, br),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  GestureDetector(
+                    onPanDown: (details) {
+                      double x1 = details.localPosition.dx;
+                      double y1 = details.localPosition.dy;
+                      double x2 = tl.dx;
+                      double y2 = tl.dy;
+                      double x3 = tr.dx;
+                      double y3 = tr.dy;
+                      double x4 = bl.dx;
+                      double y4 = bl.dy;
+                      double x5 = br.dx;
+                      double y5 = br.dy;
+                      if (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) <
+                              30 &&
+                          x1 >= 0 &&
+                          y1 >= 0 &&
+                          x1 < width / 2 &&
+                          y1 < height / 2) {
+                        print(details.localPosition);
+                        setState(() {
+                          tl = details.localPosition;
+                        });
+                      } else if (sqrt((x3 - x1) * (x3 - x1) +
+                                  (y3 - y1) * (y3 - y1)) <
+                              30 &&
+                          x1 >= width / 2 &&
+                          y1 >= 0 &&
+                          x1 < width &&
+                          y1 < height / 2) {
+                        setState(() {
+                          tr = details.localPosition;
+                        });
+                      } else if (sqrt((x4 - x1) * (x4 - x1) +
+                                  (y4 - y1) * (y4 - y1)) <
+                              30 &&
+                          x1 >= 0 &&
+                          y1 >= height / 2 &&
+                          x1 < width / 2 &&
+                          y1 < height) {
+                        setState(() {
+                          bl = details.localPosition;
+                        });
+                      } else if (sqrt((x5 - x1) * (x5 - x1) +
+                                  (y5 - y1) * (y5 - y1)) <
+                              30 &&
+                          x1 >= width / 2 &&
+                          y1 >= height / 2 &&
+                          x1 < width &&
+                          y1 < height) {
+                        setState(() {
+                          br = details.localPosition;
+                        });
+                      }
+                    },
+                    onPanUpdate: (details) {
+                      double x1 = details.localPosition.dx;
+                      double y1 = details.localPosition.dy;
+                      double x2 = tl.dx;
+                      double y2 = tl.dy;
+                      double x3 = tr.dx;
+                      double y3 = tr.dy;
+                      double x4 = bl.dx;
+                      double y4 = bl.dy;
+                      double x5 = br.dx;
+                      double y5 = br.dy;
+                      if (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) <
+                              30 &&
+                          x1 >= 0 &&
+                          y1 >= 0 &&
+                          x1 < width / 2 &&
+                          y1 < height / 2) {
+                        print(details.localPosition);
+                        setState(() {
+                          tl = details.localPosition;
+                        });
+                      } else if (sqrt((x3 - x1) * (x3 - x1) +
+                                  (y3 - y1) * (y3 - y1)) <
+                              30 &&
+                          x1 >= width / 2 &&
+                          y1 >= 0 &&
+                          x1 < width &&
+                          y1 < height / 2) {
+                        setState(() {
+                          tr = details.localPosition;
+                        });
+                      } else if (sqrt((x4 - x1) * (x4 - x1) +
+                                  (y4 - y1) * (y4 - y1)) <
+                              30 &&
+                          x1 >= 0 &&
+                          y1 >= height / 2 &&
+                          x1 < width / 2 &&
+                          y1 < height) {
+                        setState(() {
+                          bl = details.localPosition;
+                        });
+                      } else if (sqrt((x5 - x1) * (x5 - x1) +
+                                  (y5 - y1) * (y5 - y1)) <
+                              30 &&
+                          x1 >= width / 2 &&
+                          y1 >= height / 2 &&
+                          x1 < width &&
+                          y1 < height) {
+                        setState(() {
+                          br = details.localPosition;
+                        });
+                      }
+                    },
+                    child: SafeArea(
+                      child: Container(
+                        color: ThemeData.dark().canvasColor,
+                        constraints: BoxConstraints(maxHeight: 450),
+                        child: Image.file(
+                          widget.file,
+                          key: key,
+                        ),
+                      ),
+                    ),
                   ),
-                )
-              : SizedBox()
-        ],
-                ),
-                bottomSheet()
-              ],
-            ),
-          ));
+                  isFile
+                      ? SafeArea(
+                          child: CustomPaint(
+                            painter: CropPainter(tl, tr, bl, br),
+                          ),
+                        )
+                      : SizedBox()
+                ],
+              ),
+              bottomSheet()
+            ],
+          ),
+        ));
   }
 
   Widget bottomSheet() {
@@ -224,13 +222,6 @@ class _NewImageState extends State<NewImage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                FlatButton(
-                  child: Text(
-                    "Retake",
-                    style: TextStyle(
-                        color: Colors.white.withOpacity(0.4), fontSize: 18),
-                  ),
-                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -257,7 +248,7 @@ class _NewImageState extends State<NewImage> {
                             ),
                           )
                         : isFile
-                            ? FlatButton(
+                            ? TextButton(
                                 child: Text(
                                   "Continue",
                                   softWrap: true,
@@ -279,7 +270,8 @@ class _NewImageState extends State<NewImage> {
                                                   width: width,
                                                   height: height,
                                                   file: widget.file,
-                                                  imagePixelSize: imagePixelSize,
+                                                  imagePixelSize:
+                                                      imagePixelSize,
                                                   animatedListKey:
                                                       widget.animatedListKey,
                                                 )));

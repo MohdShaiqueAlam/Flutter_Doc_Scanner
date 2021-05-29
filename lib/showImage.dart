@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:image_size_getter/image_size_getter.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class ShowImage extends StatefulWidget {
   File file;
   var imagePixelSize;
@@ -47,18 +48,17 @@ class _ShowImageState extends State<ShowImage> {
   bool isRotating = false;
   int angle = 0;
   String canvasType = "whiteboard";
-  double tl_x;
-  double tr_x;
-  double bl_x;
-  double br_x;
-  double tl_y;
-  double tr_y;
-  double bl_y;
-  double br_y;
+  double tlX;
+  double trX;
+  double blX;
+  double brX;
+  double tlY;
+  double trY;
+  double blY;
+  double brY;
   var bytes;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     nameController.text = "Scan" + DateTime.now().toString();
     _focusNode.addListener(() {
@@ -69,22 +69,21 @@ class _ShowImageState extends State<ShowImage> {
         );
       }
     });
-    tl_x = (widget.imagePixelSize.width / widget.width) * widget.tl.dx;
-    tr_x = (widget.imagePixelSize.width / widget.width) * widget.tr.dx;
-    bl_x = (widget.imagePixelSize.width / widget.width) * widget.bl.dx;
-    br_x = (widget.imagePixelSize.width / widget.width) * widget.br.dx;
+    tlX = (widget.imagePixelSize.width / widget.width) * widget.tl.dx;
+    trX = (widget.imagePixelSize.width / widget.width) * widget.tr.dx;
+    blX = (widget.imagePixelSize.width / widget.width) * widget.bl.dx;
+    brX = (widget.imagePixelSize.width / widget.width) * widget.br.dx;
 
-    tl_y = (widget.imagePixelSize.height / widget.height) * widget.tl.dy;
-    tr_y = (widget.imagePixelSize.height / widget.height) * widget.tr.dy;
-    bl_y = (widget.imagePixelSize.height / widget.height) * widget.bl.dy;
-    br_y = (widget.imagePixelSize.height / widget.height) * widget.br.dy;
+    tlY = (widget.imagePixelSize.height / widget.height) * widget.tl.dy;
+    trY = (widget.imagePixelSize.height / widget.height) * widget.tr.dy;
+    blY = (widget.imagePixelSize.height / widget.height) * widget.bl.dy;
+    brY = (widget.imagePixelSize.height / widget.height) * widget.br.dy;
     convertToGray();
     BackButtonInterceptor.add(myInterceptor);
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     BackButtonInterceptor.remove(myInterceptor);
     super.dispose();
   }
@@ -117,9 +116,7 @@ class _ShowImageState extends State<ShowImage> {
           ],
         )),
         actions: <Widget>[
-          OutlineButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          OutlinedButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -128,9 +125,7 @@ class _ShowImageState extends State<ShowImage> {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          OutlineButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          OutlinedButton(
             onPressed: () {
               Navigator.pop(context);
               Navigator.pop(context);
@@ -172,7 +167,7 @@ class _ShowImageState extends State<ShowImage> {
                             Navigator.of(context).pop();
                           },
                         ),
-                        FlatButton(
+                        TextButton(
                           child: Text(
                             "Save as PDF",
                             style: TextStyle(
@@ -281,14 +276,14 @@ class _ShowImageState extends State<ShowImage> {
             ))
                 .then((value) {
               if (value != null) {
-                tl_x = value[1];
-                tl_y = value[2];
-                tr_x = value[3];
-                tr_y = value[4];
-                bl_x = value[5];
-                bl_y = value[6];
-                br_x = value[7];
-                br_y = value[8];
+                tlX = value[1];
+                tlY = value[2];
+                trX = value[3];
+                trY = value[4];
+                blX = value[5];
+                blY = value[6];
+                brX = value[7];
+                brY = value[8];
                 setState(() {
                   bytes = value[0];
                   isGrayBytes = false;
@@ -320,19 +315,19 @@ class _ShowImageState extends State<ShowImage> {
                 Icons.rotate_right,
                 color: Colors.black,
               ),
-              title: Text("Rotate")),
+              label: "Rotate"),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.crop,
                 color: Colors.black,
               ),
-              title: Text("Crop")),
+              label: "Crop"),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.color_lens,
                 color: Colors.black,
               ),
-              title: Text("Color")),
+              label: "Edit"),
         ],
       ),
     );
@@ -491,14 +486,14 @@ class _ShowImageState extends State<ShowImage> {
   Future<dynamic> convertToGray() async {
     var bytesArray = await channel.invokeMethod('convertToGray', {
       'filePath': widget.file.path,
-      'tl_x': tl_x,
-      'tl_y': tl_y,
-      'tr_x': tr_x,
-      'tr_y': tr_y,
-      'bl_x': bl_x,
-      'bl_y': bl_y,
-      'br_x': br_x,
-      'br_y': br_y,
+      'tl_x': tlX,
+      'tl_y': tlY,
+      'tr_x': trX,
+      'tr_y': trY,
+      'bl_x': blX,
+      'bl_y': blY,
+      'br_x': brX,
+      'br_y': brY,
     });
     setState(() {
       bytes = bytesArray;
@@ -511,36 +506,36 @@ class _ShowImageState extends State<ShowImage> {
     Future.delayed(Duration(seconds: 1), () {
       channel.invokeMethod('gray', {
         'filePath': widget.file.path,
-        'tl_x': tl_x,
-        'tl_y': tl_y,
-        'tr_x': tr_x,
-        'tr_y': tr_y,
-        'bl_x': bl_x,
-        'bl_y': bl_y,
-        'br_x': br_x,
-        'br_y': br_y,
+        'tl_x': tlX,
+        'tl_y': tlY,
+        'tr_x': trX,
+        'tr_y': trY,
+        'bl_x': blX,
+        'bl_y': blY,
+        'br_x': brX,
+        'br_y': brY,
       });
       channel.invokeMethod('whiteboard', {
         'filePath': widget.file.path,
-        'tl_x': tl_x,
-        'tl_y': tl_y,
-        'tr_x': tr_x,
-        'tr_y': tr_y,
-        'bl_x': bl_x,
-        'bl_y': bl_y,
-        'br_x': br_x,
-        'br_y': br_y,
+        'tl_x': tlX,
+        'tl_y': tlY,
+        'tr_x': trX,
+        'tr_y': trY,
+        'bl_x': blX,
+        'bl_y': blY,
+        'br_x': brX,
+        'br_y': brY,
       });
       channel.invokeMethod('original', {
         'filePath': widget.file.path,
-        'tl_x': tl_x,
-        'tl_y': tl_y,
-        'tr_x': tr_x,
-        'tr_y': tr_y,
-        'bl_x': bl_x,
-        'bl_y': bl_y,
-        'br_x': br_x,
-        'br_y': br_y,
+        'tl_x': tlX,
+        'tl_y': tlY,
+        'tr_x': trX,
+        'tr_y': trY,
+        'bl_x': blX,
+        'bl_y': blY,
+        'br_x': brX,
+        'br_y': brY,
       });
     });
     Timer(Duration(seconds: 7), () {

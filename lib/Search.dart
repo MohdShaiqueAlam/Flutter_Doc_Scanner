@@ -1,11 +1,9 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:documentscanner2/Model/documentModel.dart';
 import 'package:documentscanner2/pdfScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_share/flutter_share.dart';
-import 'package:printing/printing.dart';
+
 import 'package:provider/provider.dart';
 
 import 'Providers/documentProvider.dart';
@@ -15,7 +13,6 @@ class Search extends SearchDelegate {
       GlobalKey<AnimatedListState>();
   @override
   List<Widget> buildActions(BuildContext context) {
-    // TODO: implement buildActions
     return [
       IconButton(
           icon: Icon(Icons.clear),
@@ -27,7 +24,6 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
     return IconButton(
       icon: AnimatedIcon(
           icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
@@ -39,7 +35,6 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
     if (query.isEmpty) {
       List<DocumentModel> documentList = getAllDocuments(context);
       return ListView.builder(

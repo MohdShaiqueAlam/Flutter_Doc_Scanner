@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import 'Providers/documentProvider.dart';
 
+// ignore: must_be_immutable
 class PDFScreen extends StatefulWidget {
   DocumentModel document;
   GlobalKey<AnimatedListState> animatedListKey;
@@ -25,14 +26,12 @@ class _PDFScreenState extends State<PDFScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     BackButtonInterceptor.add(myInterceptor);
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     BackButtonInterceptor.remove(myInterceptor);
   }
@@ -208,16 +207,12 @@ class _PDFScreenState extends State<PDFScreen> {
           ],
         )),
         actions: <Widget>[
-          OutlineButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
+          OutlinedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Text("Cancel")),
-          OutlineButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
+          OutlinedButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 setState(() {
@@ -259,9 +254,7 @@ class _PDFScreenState extends State<PDFScreen> {
           ],
         )),
         actions: <Widget>[
-          OutlineButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          OutlinedButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -270,9 +263,7 @@ class _PDFScreenState extends State<PDFScreen> {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          OutlineButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          OutlinedButton(
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pop();

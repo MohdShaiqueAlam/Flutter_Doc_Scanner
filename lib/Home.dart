@@ -5,15 +5,14 @@ import 'package:documentscanner2/drawer.dart';
 import 'package:documentscanner2/pdfScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
+
 import 'package:flutter_share/flutter_share.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'dart:io';
 
-import 'Model/documentModel.dart';
 import 'NewImage.dart';
 
 class Home extends StatefulWidget {
@@ -23,10 +22,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   MethodChannel channel = MethodChannel('opencv');
+  // ignore: unused_field
   File _file;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -113,7 +112,8 @@ class _HomeState extends State<Home> {
   }
 
   void chooseImage(ImageSource source) async {
-    File fileGallery = await ImagePicker.pickImage(source: source);
+    final imageGallery = await ImagePicker().getImage(source: source);
+    File fileGallery = File(imageGallery.path);
     if (fileGallery != null) {
       _file = fileGallery;
       Navigator.of(context).push(MaterialPageRoute(
@@ -227,7 +227,10 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             IconButton(
-                                icon: Icon(Icons.share,color: ThemeData.dark().accentColor,),
+                                icon: Icon(
+                                  Icons.share,
+                                  color: ThemeData.dark().accentColor,
+                                ),
                                 onPressed: () {
                                   shareDocument(Provider.of<DocumentProvider>(
                                           context,
@@ -236,11 +239,17 @@ class _HomeState extends State<Home> {
                                       .pdfPath);
                                 }),
                             IconButton(
-                              icon: Icon(Icons.cloud_upload,color: ThemeData.dark().accentColor,),
+                              icon: Icon(
+                                Icons.cloud_upload,
+                                color: ThemeData.dark().accentColor,
+                              ),
                               onPressed: () {},
                             ),
                             IconButton(
-                                icon: Icon(Icons.more_vert,color: ThemeData.dark().accentColor,),
+                                icon: Icon(
+                                  Icons.more_vert,
+                                  color: ThemeData.dark().accentColor,
+                                ),
                                 onPressed: () {
                                   showModalSheet(
                                       index: index,
@@ -399,9 +408,7 @@ class _HomeState extends State<Home> {
           ],
         )),
         actions: <Widget>[
-          OutlineButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          OutlinedButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -410,9 +417,7 @@ class _HomeState extends State<Home> {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          OutlineButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          OutlinedButton(
             onPressed: () {
               Navigator.of(context).pop();
 
@@ -464,16 +469,12 @@ class _HomeState extends State<Home> {
           ],
         )),
         actions: <Widget>[
-          OutlineButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
+          OutlinedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Text("Cancel")),
-          OutlineButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
+          OutlinedButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 Provider.of<DocumentProvider>(context, listen: false)

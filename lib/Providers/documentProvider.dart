@@ -28,11 +28,11 @@ class DocumentProvider extends ChangeNotifier {
     });
     allDocuments.sort((a, b) => b.dateTime.compareTo(a.dateTime));
     DocumentModel document = DocumentModel(
-          name: "firstCard55466222",
-          documentPath: "",
-          dateTime:DateTime.utc(1969, 7, 20, 20, 18, 04),
-          pdfPath: "",
-          shareLink: "");
+        name: "firstCard55466222",
+        documentPath: "",
+        dateTime: DateTime.utc(1969, 7, 20, 20, 18, 04),
+        pdfPath: "",
+        shareLink: "");
     allDocuments.add(document);
     notifyListeners();
     return true;
@@ -53,11 +53,14 @@ class DocumentProvider extends ChangeNotifier {
     pdf.addPage(pw.Page(
       pageFormat: PdfPageFormat(2480, 3508),
       build: (pw.Context context) {
-        return pw.Image(image, fit: angle==0 || angle==180?pw.BoxFit.fill:pw.BoxFit.fitWidth);
+        return pw.Image(image,
+            fit: angle == 0 || angle == 180
+                ? pw.BoxFit.fill
+                : pw.BoxFit.fitWidth);
       },
     ));
     final tempDir = await getTemporaryDirectory();
-    String pdfPath = tempDir.path + "/${name}" + ".pdf";
+    String pdfPath = tempDir.path + "/$name" + ".pdf";
     File pdfFile = File(pdfPath);
     print(pdfPath);
     pdfFile.writeAsBytes(pdf.save());
@@ -88,7 +91,7 @@ class DocumentProvider extends ChangeNotifier {
   }
 
   void deleteDocument(int index, String key) async {
-    Timer(Duration(milliseconds: 300),(){
+    Timer(Duration(milliseconds: 300), () {
       allDocuments.removeAt(index);
       notifyListeners();
     });

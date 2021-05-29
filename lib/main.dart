@@ -1,13 +1,7 @@
-import 'dart:convert';
-
-import 'package:documentscanner2/Model/documentModel.dart';
 import 'package:documentscanner2/Providers/documentProvider.dart';
-import 'package:documentscanner2/showImage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'Home.dart';
 
 void main() {
@@ -23,7 +17,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -34,9 +27,11 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         theme: ThemeData(
             appBarTheme: AppBarTheme(color: ThemeData.dark().canvasColor),
-            textSelectionColor: Colors.blueGrey,
             floatingActionButtonTheme: FloatingActionButtonThemeData(
-                backgroundColor: ThemeData.dark().canvasColor)),
+                backgroundColor: ThemeData.dark().canvasColor),
+            textSelectionTheme:
+                TextSelectionThemeData(selectionColor: Colors.blueGrey)),
+        debugShowCheckedModeBanner: false,
         home: Home(),
       ),
     );
